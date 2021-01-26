@@ -1803,7 +1803,7 @@ int restartServer(int flags, mstime_t delay) {
 void adjustOpenFilesLimit(void) {
     rlim_t maxfiles = server.maxclients+CONFIG_MIN_RESERVED_FDS;
     struct rlimit limit;
-
+    ////getrlimit 进程读取自己的资源限制， setrlimit 进程设置自己的资源限制值
     if (getrlimit(RLIMIT_NOFILE,&limit) == -1) {
         serverLog(LL_WARNING,"Unable to obtain the current NOFILE limit (%s), assuming 1024 and setting the max clients configuration accordingly.",
             strerror(errno));
@@ -4033,12 +4033,12 @@ int main(int argc, char **argv) {
 #endif
 
     /* We need to initialize our libraries, and the server configuration. */
-#ifdef INIT_SETPROCTITLE_REPLACEMENT
+#ifdef INIT_SETPROCTITLE_REPLACEMENT ////change process name.
     spt_init(argc, argv);
 #endif
-    setlocale(LC_COLLATE,"");
-    tzset(); /* Populates 'timezone' global. */
-    zmalloc_set_oom_handler(redisOutOfMemoryHandler);
+    setlocale(LC_COLLATE,""); ////从环境变量取得地区的设置
+    tzset(); /* Populates 'timezone' global. */ ////为运行中的程序指定一个时区
+    zmalloc_set_oom_handler(redisOutOfMemoryHandler); //// set callback when redis out of memory
     srand(time(NULL)^getpid());
     gettimeofday(&tv,NULL);
 
