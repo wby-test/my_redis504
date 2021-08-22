@@ -49,7 +49,7 @@ typedef struct dictEntry {
     union {
         void *val;
         uint64_t u64;
-        int64_t s64;
+        int64_t s64; // 存储键过期时间
         double d;
     } v;
     struct dictEntry *next; ////如果key散列后相同，使用next指针。
@@ -68,9 +68,10 @@ typedef struct dictType {
  * implement incremental rehashing, for the old to the new table. */
 typedef struct dictht {
     dictEntry **table;  ////hashmap 数组
-    unsigned long size;
-    unsigned long sizemask;
-    unsigned long used;
+    unsigned long size; //// 总容量
+    unsigned long sizemask; //// sizemask = size-1 , idx = hash&sizemask, ht初始容量为4，扩容只能是2倍，sizemask为11， 111，.。。。，快速求下标
+    //// 结果等同于数据大小 对 数组大小取余。
+    unsigned long used; //// 已存入数据量的
 } dictht;
 
 typedef struct dict {

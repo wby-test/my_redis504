@@ -173,7 +173,7 @@ int dictExpand(dict *d, unsigned long size)
 
     /* Prepare a second hash table for incremental rehashing */
     d->ht[1] = n;
-    d->rehashidx = 0;       ////扩展hash， rehashidx置为0，（什么时候使用？）
+    d->rehashidx = 0;       ////扩展hash， rehashidx置为,标志正在rehash
     return DICT_OK;
 }
 

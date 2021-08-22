@@ -18,6 +18,7 @@
         "tuple": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "cerrno": "c"
+        "cerrno": "c",
+        "cstdint": "c"
     }
 }
